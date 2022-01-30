@@ -9,8 +9,8 @@ matrix = [[background for i in range(width)] for j in range(height)]
 def clear():
     if name == 'nt':
         system('cls')
-    else:
-        system('clear')
+    # else:
+    #     system('clear')
 
 
 def within_matrix(x: int, y: int):
@@ -49,7 +49,7 @@ def func(user_input: str):
         if i in user_input:
            linear = False
            break
-    try: #I know this isn't good code pratice
+    try:
         x = 0
         while x < width:
             y = eval(user_input)
@@ -62,15 +62,18 @@ def func(user_input: str):
 def polygon(x:int, y:int, sides: int, lenght: int, symbol: str):
     if sides < 2:
         return False
-    theta = 180 / (sides - 2)
-    print(theta)
-    for i in range(sides):
-        segment(x, y, theta * i, lenght, symbol)
+    mirrorAxis = x + lenght / 2 - 0.5
+    theta = (2 * pi) / sides #Radians!
+    for i in range(ceil(sides / 2) + 1):
+        for l in range(round(lenght)): #Segment creation
+            calcX = x + l * cos(theta * i)
+            calcY = y + l * sin(theta * i)
+            point(calcX, calcY, symbol[0])                  #Right side
+            point(mirrorAxis * 2 - calcX, calcY, symbol[0]) #Mirroring
+            if calcX < mirrorAxis and i:
+                break
         x = round(x + (lenght - 1) * cos(theta * i))
         y = round(y + (lenght - 1) * sin(theta * i))
-        point(x, y, "O")
-        view()
-        input()
-        
 
+polygon(7, 5, 5, 9, "e")
 view()
