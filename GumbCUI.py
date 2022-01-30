@@ -2,7 +2,7 @@ from math import *
 import time
 from os import name, system
 
-width, height = 10, 10
+width, height = 30, 30
 background = "."
 matrix = [[background for i in range(width)] for j in range(height)]
 
@@ -14,8 +14,8 @@ def set_size(w: int, h: int):
 def clear():
     if name == 'nt':
         system('cls')
-    else:
-         system('clear')
+    # else:
+    #      system('clear')
 
 def within_matrix(x: int, y: int):
     if(x < width and x >= 0) and (y < height and y >= 0):
@@ -68,6 +68,8 @@ def polygon(x: int, y: int, sides: int, length: int, symbol: str):
         return False
     mirrorAxis = x + length / 2 - 0.5
     theta = (2 * pi) / sides #Radians!
+    if sides == 3:
+        sides -= 1
     for i in range(round(sides / 2) + 1):
         for l in range(round(length)): #Segment creation
             calcX = x + l * cos(theta * i)
@@ -78,3 +80,6 @@ def polygon(x: int, y: int, sides: int, length: int, symbol: str):
                 break
         x = round(x + (length - 1) * cos(theta * i))
         y = round(y + (length - 1) * sin(theta * i))
+
+polygon(4, 4, 4, 4, 'E')
+view()
