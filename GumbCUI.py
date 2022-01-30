@@ -2,16 +2,15 @@ from math import *
 import time
 from os import name, system
 
-width, height = 30, 30
+width, height = 10, 10
 background = "."
 matrix = [[background for i in range(width)] for j in range(height)]
 
 def clear():
     if name == 'nt':
         system('cls')
-    # else:
-    #     system('clear')
-
+    else:
+         system('clear')
 
 def within_matrix(x: int, y: int):
     if(x < width and x >= 0) and (y < height and y >= 0):
