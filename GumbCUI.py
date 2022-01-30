@@ -68,7 +68,7 @@ def polygon(x: int, y: int, sides: int, length: int, symbol: str):
         return False
     mirrorAxis = x + length / 2 - 0.5
     theta = (2 * pi) / sides #Radians!
-    for i in range(ceil(sides / 2) + 1):
+    for i in range(round(sides / 2) + 1):
         for l in range(round(length)): #Segment creation
             calcX = x + l * cos(theta * i)
             calcY = y + l * sin(theta * i)
@@ -78,4 +78,3 @@ def polygon(x: int, y: int, sides: int, length: int, symbol: str):
                 break
         x = round(x + (length - 1) * cos(theta * i))
         y = round(y + (length - 1) * sin(theta * i))
-
