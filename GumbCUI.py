@@ -30,9 +30,9 @@ def point(x: int, y: int, symbol: str):
     if within_matrix(x, y):
         matrix[y][x] = symbol[0]
 
-def segment(x: int, y: int, theta: float, lenght: float, symbol: str):
+def segment(x: int, y: int, theta: float, length: float, symbol: str):
     theta *= pi / 180;
-    for l in range(round(lenght)):
+    for l in range(round(length)):
         point(x + l * cos(theta), y + l * sin(theta), symbol)
 
 def circle(x: int, y: int, radius: float, symbol: str):
@@ -59,21 +59,21 @@ def func(user_input: str):
     except:
         pass
 
-def polygon(x:int, y:int, sides: int, lenght: int, symbol: str):
+def polygon(x:int, y:int, sides: int, length: int, symbol: str):
     if sides < 2:
         return False
-    mirrorAxis = x + lenght / 2 - 0.5
+    mirrorAxis = x + length / 2 - 0.5
     theta = (2 * pi) / sides #Radians!
     for i in range(ceil(sides / 2) + 1):
-        for l in range(round(lenght)): #Segment creation
+        for l in range(round(length)): #Segment creation
             calcX = x + l * cos(theta * i)
             calcY = y + l * sin(theta * i)
             point(calcX, calcY, symbol[0])                  #Right side
             point(mirrorAxis * 2 - calcX, calcY, symbol[0]) #Mirroring
             if calcX < mirrorAxis and i:
                 break
-        x = round(x + (lenght - 1) * cos(theta * i))
-        y = round(y + (lenght - 1) * sin(theta * i))
+        x = round(x + (length - 1) * cos(theta * i))
+        y = round(y + (length - 1) * sin(theta * i))
 
 polygon(7, 5, 5, 9, "e")
 view()
