@@ -6,6 +6,11 @@ width, height = 10, 10
 background = "."
 matrix = [[background for i in range(width)] for j in range(height)]
 
+def set_size(w: int, h: int):
+    global matrix, width, height
+    width, height = abs(w), abs(h)
+    matrix = [[background for i in range(width)] for j in range(height)]
+    
 def clear():
     if name == 'nt':
         system('cls')
@@ -74,5 +79,3 @@ def polygon(x: int, y: int, sides: int, length: int, symbol: str):
         x = round(x + (length - 1) * cos(theta * i))
         y = round(y + (length - 1) * sin(theta * i))
 
-polygon(7, 5, 5, 9, "e")
-view()
