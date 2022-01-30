@@ -59,8 +59,8 @@ def func(user_input: str):
     except:
         pass
 
-def polygon(x:int, y:int, sides: int, length: int, symbol: str):
-    if sides < 2:
+def polygon(x: int, y: int, sides: int, length: int, symbol: str):
+    if sides <= 2:
         return False
     mirrorAxis = x + length / 2 - 0.5
     theta = (2 * pi) / sides #Radians!
