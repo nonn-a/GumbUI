@@ -1,16 +1,36 @@
 from math import *
-import time
 from os import name, system
-
+import time
 width, height = 20, 20
 background = "."
-matrix = [[background for i in range(width)] for j in range(height)]
+matrix = [[background for j in range(width)] for i in range(height)]
 
 def set_size(w: int, h: int):
     global matrix, width, height
     width, height = abs(w), abs(h)
-    matrix = [[background for i in range(width)] for j in range(height)]
-    
+    matrix = [[background for j in range(width)] for i in range(height)]
+
+def save(state_name: str):
+    global matrix, width, height
+    output = ""
+    for i in range(height):
+        for j in matrix[i]:
+            output += j + " "
+        if i != width - 1:
+            output += "\n"
+    f = open(state_name + ".txt", "w")
+    f.write(output)
+    f.close()
+
+def load(state_name: str):
+    global matrix, width, height
+    f = open(state_name + ".txt", 'r')
+    Lines = f.readlines()
+    output = []
+    for i, line in enumerate(Lines):
+        output.append(line.split(" "))
+    matrix = output
+
 def clear():
     if name == 'nt':
         system('cls')
@@ -68,16 +88,12 @@ def polygon(x: int, y: int, sides: int, length: int, symbol: str):
         return False
     mirrorAxis = x + length / 2 - 0.5
     theta = (2 * pi) / sides #Radians!
-    sides = sides if sides != 3 else 2 #Triangle building error fix
     for i in range(round(sides / 2) + 1):
         for l in range(round(length)): #Segment creation
-            calcX = x + l * cos(theta * i)
-            calcY = y + l * sin(theta * i)
+            calcX, calcY = x + l * cos(theta * i), y + l * sin(theta * i)
             point(calcX, calcY, symbol[0])                  #Right side
             point(mirrorAxis * 2 - calcX, calcY, symbol[0]) #Mirroring
-            if calcX < mirrorAxis and i:
+            if calcX <= mirrorAxis and i:
                 break
         x = round(x + (length - 1) * cos(theta * i))
         y = round(y + (length - 1) * sin(theta * i))
-
-#To fix: polygon(8, 6, 7, 5, "G")
