@@ -5,10 +5,26 @@ width, height = 20, 20
 background = "."
 matrix = [[background for j in range(width)] for i in range(height)]
 
-def set_size(w: int, h: int):
+def set_size(new_width: int, new_height: int):
     global matrix, width, height
-    width, height = abs(w), abs(h)
-    matrix = [[background for j in range(width)] for i in range(height)]
+    for i in matrix:
+        tWidth = width
+        while new_width < tWidth:
+            i.pop(-1)
+            tWidth -= 1
+        while new_width > tWidth:
+            i.append(background)
+            tWidth += 1
+    width = new_width
+    while new_height < height:
+        matrix.pop(-1)
+        height -= 1
+    while new_height > height:
+        temp = []
+        for i in range(width):
+            temp.append(background)
+        matrix.append(temp)
+        height += 1
 
 def save(state_name: str):
     global matrix, width, height
