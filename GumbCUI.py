@@ -21,7 +21,7 @@ class state:
 
     def load(state_name: str):
         global matrix, width, height
-        set_size(len(matrix[0]), len(matrix))
+        set_matrix(len(matrix[0]), len(matrix))
         f = open(state_name + ".state", 'r')
         content = f.readlines()
         output = []
@@ -33,8 +33,8 @@ class state:
         global matrix, width, height, background
         matrix = [[background for j in range(width)] for i in range(height)]        
 
-def set_size(new_width: int, new_height: int):
-    global matrix, width, height
+def set_matrix(new_width: int, new_height: int, new_background = background):
+    global matrix, width, height, background
     if new_width < 1 or new_height < 1: #If either new_width or new_height are too small
         width, height = 0, 0
         matrix = [] #Emtpy matrix
@@ -60,6 +60,12 @@ def set_size(new_width: int, new_height: int):
                 for j in range(width - new_width):
                     i.pop()
         width = len(matrix[0]) #New width value
+    
+    for i in range(height):
+            for j in range(width):
+                if matrix[i][j] == background:
+                    matrix[i][j] = new_background
+    background = new_background #Change background
 
 def clear():
     if name == 'nt':
