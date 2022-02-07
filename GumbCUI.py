@@ -1,5 +1,6 @@
 from math import *
 from os import name, system
+import time
 width, height = 20, 20 #Size of matrix (x, y)
 background = "." #Background of matrix
 matrix = [[background for j in range(width)] for i in range(height)] #Matrix initialization
@@ -143,17 +144,9 @@ class schematic:
         #                A -> # #
         # xA < xB and yA < yB
 
-        # Wrong corners: B -> # # 
-        #                     # # <- A
-        # xA > xB and yA < yB
-
-        # Wrong corners: A -> # #
-        #                     # # <- B
-        # xA < xB and yA > yB
-        #
-        #                     # # <- A
-        #                B -> # #
-        # xA > xB and yA > yB
+        # Wrong corners: B -> # #          A -> # #               # # <- A
+        #                     # # <- B          # # <- A     B -> # #
+        # xA > xB and yA < yB             xA < xB and yA > yB            xA > xB and yA > yB
 
         global matrix, height, width, background
 
@@ -167,7 +160,6 @@ class schematic:
         if xA < xB and yA > yB:
             yA, yB = yB, yA
 
-        print((xA, yA), (xB, yB))
         content, temp = [], ""
         for i in range(height):
             for j in range(width):
@@ -186,25 +178,34 @@ class schematic:
         f.write("background = " + background)
         f.close()
 
+    backup = []
+    def _internal_save_backup():                        #Not meant for end-user use
+        global matrix                                   #Saves current matrix state for undo function
+        schematic.backup = [row[:] for row in matrix]
+    
+    def undo():
+        global matrix                                   #Applies changes saved in backup
+        matrix = [row[:] for row in schematic.backup]
+
+
     def load(x: int, y:int, schematic_name: str):
         global matrix, background
+        schematic._internal_save_backup()
         f = open(schematic_name + ".schem", 'r')
         content = f.readlines()             #Reads content from schematic file
 
         schem_background = content[-1][-1]  #Reads wich symbol represents the background
                                             #The last character of a file will always be set as 
                                             #the schematic's background. Once loaded, the schematic's
-                                            #Background will be turned to the matrix's background
+                                            #Background will be considered transparent
 
         content.pop()                       #Removes the last line containing background information
 
         for i, line in enumerate(content):
             content[i] = line.strip().split(" ")    #Removes \n from file; splits all elements into a matrix
-            for j, val in enumerate(content[i]):    #Turns schematic's background to matrix's background
-                if content[i][j] == schem_background:
-                    content[i][j] = background
         content.reverse()                           #Correctly flips the matrix upside-down
 
         for i, val in enumerate(content):           #Putting point on matrix
             for j, val in enumerate(val):
-                point(x + j, y + i, val)
+                if val != schem_background:         #Allows for schematic background transparency
+                    point(x + j, y + i, val)
