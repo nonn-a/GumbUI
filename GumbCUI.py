@@ -117,8 +117,10 @@ def circle(x: int, y: int, radius: float, symbol: str):
         elif successful:
             return True
 
-def func(user_input: str):
+def func(user_input: str, symbol: str):
     linear = True
+    if "^" in user_input:
+        user_input = user_input.replace("^", "**")
     for i in ["pow", "sqrt", "**"]: #Approximation
         if i in user_input:
            linear = False
@@ -128,7 +130,7 @@ def func(user_input: str):
         while x < width:
             y = eval(user_input)
             if within_matrix(x, y):
-                point(x, y, "o")
+                point(x, y, symbol)
             x = x + 0.1 if linear else x + 0.01
     except:
         pass
@@ -213,7 +215,7 @@ class schematic:
         content.pop()                       #Removes the last line containing background information
 
         for i, line in enumerate(content):
-            content[i] = line.strip().split(" ")    #Removes \n from file; splits all elements into a matrix
+            content[i] = line.strip().split(" ")    #Removes \n from file and splits all elements into a matrix
         content.reverse()                           #Correctly flips the matrix upside-down
 
         for i, val in enumerate(content):           #Putting point on matrix
@@ -221,13 +223,3 @@ class schematic:
                 if val != schem_background:         #Allows for schematic background transparency
                     point(x + j, y + i, val)
 
-
-polygon(0, 0, 4, width, "$")
-for i in range(30):
-    if i % 2:
-        schematic.load(i, 1, "omino")
-    else:
-        schematic.load(i - 2, 1, "omino")
-    view()
-    time.sleep(0.2)
-    schematic.undo()
