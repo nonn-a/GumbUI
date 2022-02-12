@@ -1,6 +1,7 @@
 from math import *
 from os import name, system
 import time
+
 width, height = 20, 20 #Size of matrix (x, y)
 background = "." #Background of matrix
 matrix = [[background for j in range(width)] for i in range(height)] #Matrix initialization
@@ -69,7 +70,7 @@ def set_matrix(new_width: int, new_height: int, new_background = background):
     background = new_background #Change background
 
 def clear():
-    if name == 'nt':
+    if name == 'nt': #Clears screen
         system('cls')
     else:
          system('clear')
@@ -90,21 +91,31 @@ def point(x: int, y: int, symbol: str):
     x, y = round(x), round(y)
     if within_matrix(x, y):
         matrix[y][x] = symbol[0]
+        return True
     else:
         return False
 
 def segment(x: int, y: int, theta: float, length: float, symbol: str):
-    theta *= pi / 180;
+    theta *= pi / 180
+    successful = False #If the segment leaves the matrix, the function stops as successful
     for l in range(round(length)):
-        point(x + l * cos(theta), y + l * sin(theta), symbol)
+        if point(x + l * cos(theta), y + l * sin(theta), symbol):
+            successful = True
+        elif successful:
+            return True
 
 def circle(x: int, y: int, radius: float, symbol: str):
     if radius ** 2 > width ** 2 + height ** 2:
         return False
+    successful = False
+
     theta = 0
     while theta < 2 * pi:
-        point(x + radius * cos(theta), y + radius * sin(theta), symbol)
-        theta += pi * 2 / (radius * 48)
+        if point(x + radius * cos(theta), y + radius * sin(theta), symbol):
+            theta += pi * 2 / (radius * 48)
+            successful = True
+        elif successful:
+            return True
 
 def func(user_input: str):
     linear = True
@@ -150,14 +161,14 @@ class schematic:
 
         global matrix, height, width, background
 
-        if xA < 0: xA = 0
-        if yA < 0: yA = 0
-        if xB < 0: xB = 0
-        if yB < 0: yB = 0
-        if (xA > xB and yA > yB) or (xA > xB and yA < yB):  #Wrong corners -> Correct corners
-            xA, xB = xB, xA                                 #xA and xB swap
-            yA, yB = yB, yA                                 #yA and yB sawp
-        if xA < xB and yA > yB:
+        xA = min(max(xA, 0), width - 1)
+        yA = min(max(yA, 0), height - 1)
+        xB = min(max(xB, 0), width - 1)
+        yA = min(max(yB, 0), height - 1)
+
+        if xA > xB:                 #Fixing corners
+            xA, xB = xB, xA
+        if yA > yB:
             yA, yB = yB, yA
 
         content, temp = [], ""
@@ -209,3 +220,14 @@ class schematic:
             for j, val in enumerate(val):
                 if val != schem_background:         #Allows for schematic background transparency
                     point(x + j, y + i, val)
+
+
+polygon(0, 0, 4, width, "$")
+for i in range(30):
+    if i % 2:
+        schematic.load(i, 1, "omino")
+    else:
+        schematic.load(i - 2, 1, "omino")
+    view()
+    time.sleep(0.2)
+    schematic.undo()
