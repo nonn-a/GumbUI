@@ -2,8 +2,8 @@ from math import *
 from os import name, system
 import time
 
-width, height = 20, 20 #Size of matrix (x, y)
-background = "." #Background of matrix
+width, height = 51, 51 #Size of matrix (x, y)
+background = "·" #Background of matrix
 matrix = [[background for j in range(width)] for i in range(height)] #Matrix initialization
 
 class state:
@@ -41,12 +41,10 @@ def set_matrix(new_width: int, new_height: int, new_background = background):
         width, height = 0, 0
         matrix = [] #Emtpy matrix
         return
-
     #Y Axis
     if new_height > height:
         for j in range(new_height - height):
             matrix.append([background for j in range(width)])
-
     elif new_height < height:
         for j in range(height - new_height):
             matrix.pop()
@@ -62,12 +60,11 @@ def set_matrix(new_width: int, new_height: int, new_background = background):
                 for j in range(width - new_width):
                     i.pop()
         width = len(matrix[0]) #New width value
-    
     for i in range(height):
             for j in range(width):
                 if matrix[i][j] == background:
-                    matrix[i][j] = new_background
-    background = new_background #Change background
+                    matrix[i][j] = new_background[0]
+    background = new_background[0] #Change background
 
 def clear():
     if name == 'nt': #Clears screen
@@ -92,8 +89,7 @@ def point(x: int, y: int, symbol: str):
     if within_matrix(x, y):
         matrix[y][x] = symbol[0]
         return True
-    else:
-        return False
+    return False
 
 def segment(x: int, y: int, theta: float, length: float, symbol: str):
     theta *= pi / 180
@@ -105,50 +101,13 @@ def segment(x: int, y: int, theta: float, length: float, symbol: str):
             return True
 
 def circle(x: int, y: int, radius: float, symbol: str):
-    if radius ** 2 > width ** 2 + height ** 2:
+    if radius ** 2 > width ** 2 + height ** 2 or radius == 0:
         return False
-    successful = False
 
     theta = 0
     while theta < 2 * pi:
-        if point(x + radius * cos(theta), y + radius * sin(theta), symbol):
-            theta += pi * 2 / (radius * 48)
-            successful = True
-        elif successful:
-            return True
-
-def func(user_input: str, symbol: str):
-    linear = True
-    if "^" in user_input:
-        user_input = user_input.replace("^", "**")
-    for i in ["pow", "sqrt", "**"]: #Approximation
-        if i in user_input:
-           linear = False
-           break
-    try:
-        x = 0
-        while x < width:
-            y = eval(user_input)
-            if within_matrix(x, y):
-                point(x, y, symbol)
-            x = x + 0.1 if linear else x + 0.01
-    except:
-        pass
-
-def polygon(x: int, y: int, sides: int, length: int, symbol: str):
-    if sides <= 2:
-        return False
-    mirrorAxis = x + length / 2 - 0.5
-    theta = (2 * pi) / sides #Radians!
-    for i in range(round(sides / 2) + 1):
-        for l in range(round(length)): #Segment creation
-            calcX, calcY = x + l * cos(theta * i), y + l * sin(theta * i)
-            point(calcX, calcY, symbol[0])                  #Right side
-            point(mirrorAxis * 2 - calcX, calcY, symbol[0]) #Mirroring
-            if calcX <= mirrorAxis and i:
-                break
-        x = round(x + (length - 1) * cos(theta * i))
-        y = round(y + (length - 1) * sin(theta * i))
+        point(x + radius * cos(theta), y + radius * sin(theta), symbol)
+        theta += pi * 2 / (radius * 48)
 
 class schematic:
     def save(xA: int, yA: int, xB: int, yB: int, schem_name: str):
@@ -201,7 +160,7 @@ class schematic:
         matrix = [row[:] for row in schematic.backup]
 
 
-    def load(x: int, y:int, schematic_name: str):
+    def load(x: int, y: int, schematic_name: str):
         global matrix, background
         schematic._internal_save_backup()
         f = open(schematic_name + ".schem", 'r')
@@ -223,3 +182,53 @@ class schematic:
                 if val != schem_background:         #Allows for schematic background transparency
                     point(x + j, y + i, val)
 
+def func(user_input: str, symbol: str):
+    linear = True
+    if "^" in user_input:
+        user_input = user_input.replace("^", "**")
+    for i in ["pow", "sqrt", "**"]: #Approximation
+        if i in user_input:
+           linear = False
+           break
+    try:
+        x = 0
+        while x < width:
+            y = eval(user_input)
+            if within_matrix(x, y):
+                point(x, y, symbol)
+            x = x + 0.1 if linear else x + 0.01
+    except:
+        pass
+
+def polygon(x: int, y: int, sides: int, length: int, symbol: str):
+    if sides <= 2:
+        return False
+    mirrorAxis = x + length / 2 - 0.5
+    theta = (2 * pi) / sides #Radians!
+    for i in range(round(sides / 2) + 1):
+        for l in range(round(length)): #Segment creation
+            calcX, calcY = x + l * cos(theta * i), y + l * sin(theta * i)
+            point(calcX, calcY, symbol[0])                  #Right side
+            point(mirrorAxis * 2 - calcX, calcY, symbol[0]) #Mirroring
+            if calcX <= mirrorAxis and i:
+                break
+        x = round(x + (length - 1) * cos(theta * i))
+        y = round(y + (length - 1) * sin(theta * i))
+
+def phrase(x: int, y: int, user_input: str, allow_space = False, autoline = True):
+    if not allow_space:
+        temp = user_input
+        user_input = []
+        for letter in temp:
+            user_input.append(letter if letter != ' ' else background)
+        user_input = ''.join(user_input)
+
+    for letter in user_input:
+        if (x == width and autoline) or letter == "\n":
+            x, y = 0, y - 1
+        if letter != "\n":
+            point(x, y, letter)
+            x += 1
+
+phrase(width, height + 1, "Hello surfshark")
+view()
