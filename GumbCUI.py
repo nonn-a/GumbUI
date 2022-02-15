@@ -229,6 +229,3 @@ def phrase(x: int, y: int, user_input: str, allow_space = False, autoline = True
         if letter != "\n":
             point(x, y, letter)
             x += 1
-
-phrase(width, height + 1, "Hello surfshark")
-view()
