@@ -2,7 +2,7 @@ from math import *
 from os import name, system
 import time
 
-width, height = 51, 51 #Size of matrix (x, y)
+width, height = 20, 20 #Size of matrix (x, y)
 background = "·" #Background of matrix
 matrix = [[background for j in range(width)] for i in range(height)] #Matrix initialization
 
@@ -84,9 +84,11 @@ def view():
             print(matrix[i][j], end = " ")
         print()
 
-def point(x: int, y: int, symbol: str):
+def point(x: int, y: int, symbol = ""):
     x, y = round(x), round(y)
     if within_matrix(x, y):
+        if not symbol:
+            return matrix[y][x]
         matrix[y][x] = symbol[0]
         return True
     return False
@@ -101,7 +103,7 @@ def segment(x: int, y: int, theta: float, length: float, symbol: str):
             return True
 
 def circle(x: int, y: int, radius: float, symbol: str):
-    if radius ** 2 > width ** 2 + height ** 2 or radius == 0:
+    if radius ** 2 > width ** 2 + height ** 2 or radius <= 0:
         return False
 
     theta = 0
