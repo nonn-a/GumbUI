@@ -20,6 +20,12 @@ class state:
         f = open(state_name + ".state", "w")
         f.write(output)
         f.close()
+    
+    backup = []
+    def temp_save():
+        #Saves current matrix state for undo function
+        global matrix
+        schematic.backup = [row[:] for row in matrix]
 
     def load(state_name: str):
         global matrix, width, height
@@ -36,22 +42,20 @@ class state:
         matrix = [[background for j in range(width)] for i in range(height)]        
 
 def set_matrix(new_width: int, new_height: int, new_background = background):
+    #Sets the matrix's height, width and background.
     global matrix, width, height, background
     if new_width < 1 or new_height < 1: #If either new_width or new_height are too small
         width, height = 0, 0
-        matrix = [] #Emtpy matrix
+        matrix = []               #Emtpy matrix
         return
-    #Y Axis
-    if new_height > height:
+    if new_height > height:             #Y Axis
         for j in range(new_height - height):
             matrix.append([background for j in range(width)])
     elif new_height < height:
         for j in range(height - new_height):
             matrix.pop()
-    height = len(matrix) #New height value
-
-    #X Axis
-    if new_width != width:
+    height = len(matrix)      #New height value
+    if new_width != width:              #X Axis
         for i in matrix:
             if new_width > width:
                 for j in range(new_width - width):
@@ -60,19 +64,22 @@ def set_matrix(new_width: int, new_height: int, new_background = background):
                 for j in range(width - new_width):
                     i.pop()
         width = len(matrix[0]) #New width value
-    for i in range(height):
+    for i in range(height):    #Old background -> New background
             for j in range(width):
                 if matrix[i][j] == background:
                     matrix[i][j] = new_background[0]
-    background = new_background[0] #Change background
+    background = new_background[0]
 
 def clear():
-    if name == 'nt': #Clears screen
+    #Clears screen
+    if name == 'nt':        #For windows
         system('cls')
-    else:
+    else:                   #For Unix
          system('clear')
 
 def within_matrix(x: int, y: int):
+    #Checks if a point P(x, y) is within
+    #the representable area of points
     if(x < width and x >= 0) and (y < height and y >= 0):
         return True
     return False
@@ -94,8 +101,8 @@ def point(x: int, y: int, symbol = ""):
     return False
 
 def segment(x: int, y: int, theta: float, length: float, symbol: str):
-    theta *= pi / 180
-    successful = False #If the segment leaves the matrix, the function stops as successful
+    theta *= pi / 180           #Degrees -> Radians
+    successful = False          #If the segment leaves the matrix, the function stops as successful
     for l in range(round(length)):
         if point(x + l * cos(theta), y + l * sin(theta), symbol):
             successful = True
@@ -107,9 +114,12 @@ def circle(x: int, y: int, radius: float, symbol: str):
         return False
 
     theta = 0
-    while theta < 2 * pi:
+    alpha = pi * 2 / (radius * 48)      #Angle change unit per iteration.
+                                        #Needed to not approximate too much on bigger circles
+    
+    while theta < 2 * pi:               #Circle building
         point(x + radius * cos(theta), y + radius * sin(theta), symbol)
-        theta += pi * 2 / (radius * 48)
+        theta += alpha
 
 class schematic:
     def save(xA: int, yA: int, xB: int, yB: int, schem_name: str):
@@ -146,25 +156,18 @@ class schematic:
         content.reverse()                           #Correctly flips the matrix upside-down
 
         open(schem_name + ".schem", "w").close()    #Overrides saves with same schem_name
-        f = open(schem_name + ".schem", "a")
-        for i in range(len(content)):               #Writes content on file
-            f.write(" ".join(content[i]) + "\n")
-        f.write("background = " + background)
-        f.close()
+        with open(schem_name + ".schem", "a") as f:
+            for i in range(len(content)):               #Writes content on file
+                f.write(" ".join(content[i]) + "\n")
+            f.write("background = " + background)
 
-    backup = []
-    def _internal_save_backup():                        #Not meant for end-user use
-        global matrix                                   #Saves current matrix state for undo function
-        schematic.backup = [row[:] for row in matrix]
-    
     def undo():
         global matrix                                   #Applies changes saved in backup
-        matrix = [row[:] for row in schematic.backup]
-
+        matrix = [row[:] for row in state.backup]
 
     def load(x: int, y: int, schematic_name: str):
         global matrix, background
-        schematic._internal_save_backup()
+        state.temp_save()
         f = open(schematic_name + ".schem", 'r')
         content = f.readlines()             #Reads content from schematic file
 
@@ -185,6 +188,8 @@ class schematic:
                     point(x + j, y + i, val)
 
 def func(user_input: str, symbol: str):
+    if "y" in user_input:
+        return False
     linear = True
     if "^" in user_input:
         user_input = user_input.replace("^", "**")
