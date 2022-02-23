@@ -165,6 +165,7 @@ class schematic:
 
     def load(x = 0, y = 0, schematic_name = ""):
         global matrix, height, width, background
+        schematic.save()
         if not schematic_name:
             output = schematic.local
             schematic_background = background
@@ -179,3 +180,10 @@ class schematic:
             for j, val in enumerate(val):
                 if val != schematic_background:
                     point(x + j, y + i, val)
+    
+    def undo():
+        global matrix
+        if schematic.local:
+            matrix = schematic.local
+            return True
+        return False
