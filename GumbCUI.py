@@ -136,7 +136,7 @@ def phrase(x: int, y: int, user_input: str, allow_space = False, autoline = True
 
 class schematic:
     local = []
-    def save(xA = 0, yA = 0, xB = width - 1, yB = height - 1, schematic_name = ""):
+    def save(xA = 0, yA = 0, xB = width - 1, yB = height - 1, schematic_name = ''):
         global matrix, height, width, background
         if xA > xB:
             xA, xB = xB, xA
@@ -153,8 +153,8 @@ class schematic:
             output.append(temp)
             temp = []
 
-        if not schematic_name:
-            schematic.local = output
+        if schematic_name == '':
+            schematic.local = matrix
             return
 
         output.reverse()
@@ -163,24 +163,23 @@ class schematic:
                 f.write(" ".join(output[i]) + "\n")
             f.write("Background: " + background)
 
-    def load(x = 0, y = 0, schematic_name = ""):
+    def load(x = 0, y = 0, schematic_name = ''):
         global matrix, height, width, background
+        if schematic_name == '':
+            matrix = schematic.local
+            return
         schematic.save()
-        if not schematic_name:
-            output = schematic.local
-            schematic_background = background
-        else:
-            with open(schematic_name + ".schem", 'r') as f:
-                output = f.readlines()
-            schematic_background = output.pop()[-1]
-            for i, line in enumerate(output):
-                output[i] = line.strip().split(" ")
-            output.reverse()
+        with open(schematic_name + ".schem", 'r') as f:
+            output = f.readlines()
+        schematic_background = output.pop()[-1]
+        for i, line in enumerate(output):
+            output[i] = line.strip().split(" ")
+        output.reverse()
         for i, val in enumerate(output):
             for j, val in enumerate(val):
                 if val != schematic_background:
                     point(x + j, y + i, val)
-    
+
     def undo():
         global matrix
         if schematic.local:
