@@ -5,6 +5,59 @@ width, height = 20, 20 #Size of matrix (x, y)
 background = "·" #Background of matrix
 matrix = [[background for j in range(width)] for i in range(height)] #Matrix initialization
 
+class schematic:
+    local = []
+    def save(xA = 0, yA = 0, xB = width - 1, yB = height - 1, schematic_name = ''):
+        global matrix, height, width, background
+        if xA > xB:
+            xA, xB = xB, xA
+        if yA > yB:
+            yA, yB = yB, yA
+        xA = min(max(xA, 0), width - 1)
+        yA = min(max(yA, 0), width - 1)
+        xB = min(max(xB, 0), width - 1)
+        yB = min(max(yB, 0), width - 1)
+        temp, output = [], []
+        for i in range(yA, yB + 1):
+            for j in range(xA, xB + 1):
+                temp += matrix[i][j]
+            output.append(temp)
+            temp = []
+
+        if schematic_name == '':
+            schematic.local = matrix
+            return
+
+        output.reverse()
+        with open(schematic_name + ".schem", 'w') as f:
+            for i, val in enumerate(output):
+                f.write(" ".join(output[i]) + "\n")
+            f.write("Background: " + background)
+
+    def load(x = 0, y = 0, schematic_name = ''):
+        global matrix, height, width, background
+        if schematic_name == '':
+            matrix = schematic.local
+            return
+        schematic.save()
+        with open(schematic_name + ".schem", 'r') as f:
+            output = f.readlines()
+        schematic_background = output.pop()[-1]
+        for i, line in enumerate(output):
+            output[i] = line.strip().split(" ")
+        output.reverse()
+        for i, val in enumerate(output):
+            for j, val in enumerate(val):
+                if val != schematic_background:
+                    point(x + j, y + i, val)
+
+    def undo():
+        global matrix
+        if schematic.local:
+            matrix = schematic.local
+            return True
+        return False
+
 def set_matrix(new_width: int, new_height: int, new_background = background):
     #Sets the matrix's height, width and background.
     global matrix, width, height, background
@@ -133,56 +186,3 @@ def phrase(x: int, y: int, user_input: str, allow_space = False, autoline = True
         if letter != "\n":
             point(x, y, letter)
             x += 1
-
-class schematic:
-    local = []
-    def save(xA = 0, yA = 0, xB = width - 1, yB = height - 1, schematic_name = ''):
-        global matrix, height, width, background
-        if xA > xB:
-            xA, xB = xB, xA
-        if yA > yB:
-            yA, yB = yB, yA
-        xA = min(max(xA, 0), width - 1)
-        yA = min(max(yA, 0), width - 1)
-        xB = min(max(xB, 0), width - 1)
-        yB = min(max(yB, 0), width - 1)
-        temp, output = [], []
-        for i in range(yA, yB + 1):
-            for j in range(xA, xB + 1):
-                temp += matrix[i][j]
-            output.append(temp)
-            temp = []
-
-        if schematic_name == '':
-            schematic.local = matrix
-            return
-
-        output.reverse()
-        with open(schematic_name + ".schem", 'w') as f:
-            for i, val in enumerate(output):
-                f.write(" ".join(output[i]) + "\n")
-            f.write("Background: " + background)
-
-    def load(x = 0, y = 0, schematic_name = ''):
-        global matrix, height, width, background
-        if schematic_name == '':
-            matrix = schematic.local
-            return
-        schematic.save()
-        with open(schematic_name + ".schem", 'r') as f:
-            output = f.readlines()
-        schematic_background = output.pop()[-1]
-        for i, line in enumerate(output):
-            output[i] = line.strip().split(" ")
-        output.reverse()
-        for i, val in enumerate(output):
-            for j, val in enumerate(val):
-                if val != schematic_background:
-                    point(x + j, y + i, val)
-
-    def undo():
-        global matrix
-        if schematic.local:
-            matrix = schematic.local
-            return True
-        return False
