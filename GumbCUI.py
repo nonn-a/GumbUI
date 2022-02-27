@@ -37,9 +37,9 @@ class schematic:
             f.write("Background: " + background)
 
     def load(schematic_name = "", x = 0, y = 0):
+        global matrix, height, width, background
         if x >= height or y >= height:
             return False
-        global matrix, height, width, background
         if schematic_name == "":
             output = schematic.local
         schematic.save()
