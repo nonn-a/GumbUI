@@ -5,59 +5,6 @@ width, height = 20, 20 #Size of matrix (x, y)
 background = "·" #Background of matrix
 matrix = [[background for j in range(width)] for i in range(height)] #Matrix initialization
 
-class schematic:
-    local = []
-    def save(xA = 0, yA = 0, xB = width - 1, yB = height - 1, schematic_name = ''):
-        global matrix, height, width, background
-        if xA > xB:
-            xA, xB = xB, xA
-        if yA > yB:
-            yA, yB = yB, yA
-        xA = min(max(xA, 0), width - 1)
-        yA = min(max(yA, 0), width - 1)
-        xB = min(max(xB, 0), width - 1)
-        yB = min(max(yB, 0), width - 1)
-        temp, output = [], []
-        for i in range(yA, yB + 1):
-            for j in range(xA, xB + 1):
-                temp += matrix[i][j]
-            output.append(temp)
-            temp = []
-
-        if schematic_name == '':
-            schematic.local = matrix
-            return
-
-        output.reverse()
-        with open(schematic_name + ".schem", 'w') as f:
-            for i, val in enumerate(output):
-                f.write(" ".join(output[i]) + "\n")
-            f.write("Background: " + background)
-
-    def load(x = 0, y = 0, schematic_name = ''):
-        global matrix, height, width, background
-        if schematic_name == '':
-            matrix = schematic.local
-            return
-        schematic.save()
-        with open(schematic_name + ".schem", 'r') as f:
-            output = f.readlines()
-        schematic_background = output.pop()[-1]
-        for i, line in enumerate(output):
-            output[i] = line.strip().split(" ")
-        output.reverse()
-        for i, val in enumerate(output):
-            for j, val in enumerate(val):
-                if val != schematic_background:
-                    point(x + j, y + i, val)
-
-    def undo():
-        global matrix
-        if schematic.local:
-            matrix = schematic.local
-            return True
-        return False
-
 def set_matrix(new_width: int, new_height: int, new_background = background):
     #Sets the matrix's height, width and background.
     global matrix, width, height, background
@@ -158,7 +105,7 @@ def func(user_input: str, symbol: str):
     except:
         pass
 
-def polygon(x: int, y: int, sides: int, length: int, symbol: str):
+def polygon(x: int, y: int, sides: int, length: int,symbol: str):
     if sides <= 2:
         return False
     mirrorAxis = x + length / 2 - 0.5
@@ -170,7 +117,9 @@ def polygon(x: int, y: int, sides: int, length: int, symbol: str):
             point(mirrorAxis * 2 - calcX, calcY, symbol[0]) #Mirroring
             if calcX <= mirrorAxis and i:
                 break
-        x, y = round(x + (length - 1) * cos(theta * i)), round(y + (length - 1) * sin(theta * i))
+        #x, y = round(x + (length - 1) * cos(theta * i)), round(y + (length - 1) * sin(theta * i))
+        x, y = calcX, calcY
+    return True
 
 def phrase(x: int, y: int, user_input: str, allow_space = False, autoline = True):
     if not allow_space:
@@ -186,3 +135,59 @@ def phrase(x: int, y: int, user_input: str, allow_space = False, autoline = True
         if letter != "\n":
             point(x, y, letter)
             x += 1
+
+class schematic:
+    #Abandon all hope, ye who enter here.
+    local = []
+    def save(schematic_name = "", xA = 0, yA = 0, xB = width - 1, yB = height - 1):
+        global matrix, height, width, background
+        if xA > xB:
+            xA, xB = xB, xA
+        if yA > yB:
+            yA, yB = yB, yA
+        xA = min(max(xA, 0), width - 1)
+        yA = min(max(yA, 0), width - 1)
+        xB = min(max(xB, 0), width - 1)
+        yB = min(max(yB, 0), width - 1)
+        if schematic_name == "":
+            schematic.local = [[background for j in range(xB - xA)] for i in range(yB - yA)]
+            for i in range(yB - yA):
+                for j in range(xB - xA):
+                    schematic.local[i - yB][j - xB] = matrix[yA + i][xA + j]
+            schematic.local.append("Background = " + background)
+            return True
+
+        output = [[background for j in range(xB - xA)] for i in range(yB - yA)]
+        for i in range(yB - yA):
+                for j in range(xB - xA):
+                    output[i - yB][j - xB] = matrix[yA + i][xA + j]
+        output.reverse()
+        with open(schematic_name + ".schem", "w") as f:
+            for i, val in enumerate(output):
+                f.write(" ".join(output[i]) + "\n")
+            f.write("Background: " + background)
+
+    def load(schematic_name = "", x = 0, y = 0):
+        if x >= height or y >= height:
+            return False
+        global matrix, height, width, background
+        if schematic_name == "":
+            output = schematic.local
+        schematic.save()
+        with open(schematic_name + ".schem", 'r') as f:
+            output = f.readlines()
+        schematic_background = output.pop()[-1]
+        for i, line in enumerate(output):
+            output[i] = line.strip().split(" ")
+        output.reverse()
+        for i, val in enumerate(output):
+            for j, val in enumerate(val):
+                if val != schematic_background:
+                    point(x + j, y + i, val)
+
+    def undo():
+        global matrix
+        if schematic.matrix():
+            schematic.load()
+            return True
+        return False
