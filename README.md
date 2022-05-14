@@ -2,6 +2,9 @@
 GumbUI is an in-terminal ascii ui building tool (PYTHON).<br>
 It's name stands for **G**eneral **U**se **M**atrix **B**ased **User** **I**nterface
 
+**Output example:**<br>
+![Output example :(](https://user-images.githubusercontent.com/86384221/168447498-113d2420-d2bb-4e3c-aa05-1a32e6ce7390.png)
+
 **Tips**
 ```
 - Treat the UI as a cartesian plane.
