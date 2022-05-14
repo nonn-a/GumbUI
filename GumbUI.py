@@ -1,8 +1,6 @@
 from math import *
 from os import name, system
 
-from sympy import true
-
 width, height = 20, 20 #Size of matrix (x, y)
 background = "·" #Background of matrix
 matrix = [[background for j in range(width)] for i in range(height)] #Matrix initialization
@@ -152,7 +150,7 @@ def func(user_input: str, symbol: str):
     except:
         pass
 
-def polygon(x: int, y: int, sides: int, length: int,symbol: str):
+def polygon(x: int, y: int, sides: int, length: int, symbol: str):
     if sides <= 2:
         return False
     mirrorAxis = x + length / 2 - 0.5
