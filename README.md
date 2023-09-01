@@ -54,8 +54,8 @@ TL;DR? They are great.
 
 
 
-![opsded](https://github.com/nonn-a/GumbUI/assets/86384221/64e1b3c2-d287-4578-85f7-b9622e78bd8e)
+![opsded](https://github.com/nonn-a/GumbUI/assets/86384221/32b144c4-5538-4ecd-966e-2790bf5bbe43)
 
-**The project is dead. It always more or less was, it was just a little thingy I did when I was fifteen :)
-The project WON'T be updated by me.
-The code is published under the MIT license.**
+**The project is dead. It always more or less was, it was just a little thingy I did when I was fifteen - had a lot of fun building and mantaining it :)
+The project WON'T be updated anymore (by me).
+The code is published under MIT license.**
