@@ -6,7 +6,7 @@ It's name stands for **G**eneral **U**se **M**atrix **B**ased **U**ser **I**nter
 ![opsded](https://github.com/nonn-a/GumbUI/assets/86384221/32b144c4-5538-4ecd-966e-2790bf5bbe43)
 
 **The project is dead.** It always more or less was, it was just a little thingy I did when I was fifteen - had a lot of fun building and mantaining it for a while.
-The project WON'T be updated anymore by me, but feel free to take it and make something even cooler out of it.
+The project **won't** be updated anymore by me, but feel free to take it and make something even cooler out of it.
 
 It's incredible how many things I'd change if I were to program it now - I guess that's a good thing.
 
