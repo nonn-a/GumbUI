@@ -52,5 +52,8 @@ TL;DR? They are great.
   Printing is NOT automatic.
 ``` 
 
-![opsded](https://github.com/nonn-a/GumbUI/assets/86384221/6ff1f776-0e38-4d23-b4f2-08bf46ff2809)
+
+<p align="center">
+<img src="[https://user-images.githubusercontent.com/86384221/194620353-108b79cb-e70d-425c-9fa3-71680455ec53.png](https://github.com/nonn-a/GumbUI/assets/86384221/6ff1f776-0e38-4d23-b4f2-08bf46ff2809)" width="500">
+</p>
 
