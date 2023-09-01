@@ -38,7 +38,7 @@ If `autoline` is set to `True`, it will automatically create a newline when the 
 
 `Schematics` are a new kind of object I'm trying to introduce.
 
-It's supposed to be a way to save and laod matrix surface states, even partially.
+It's supposed to be a way to save and load matrix surface states, even partially.
 Schematics will allow to make quicker and easier scripts.
 They will be implemented to be indepentent to the background.
 
@@ -47,7 +47,7 @@ TL;DR? They are great.
 **Tips**
 ```
 - Treat the UI as a cartesian plane.
-  The bottom-down point is (0, 0), NOT (1, 1)
+  The bottom-left point is (0, 0), NOT (1, 1)
 - Remember to always print what you are working with.
   Printing is NOT automatic.
 ``` 
