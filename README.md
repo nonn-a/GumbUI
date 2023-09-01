@@ -1,11 +1,15 @@
 ![Logo_python](https://user-images.githubusercontent.com/86384221/194611654-1cdbbac3-b784-466a-a198-4a081ad008fb.png)
 --------------------------------------------------------------------------------
-
-**This project is dead. See below.**
-
 GumbUI is an ascii ui building tool.<br>
 It's name stands for **G**eneral **U**se **M**atrix **B**ased **U**ser **I**nterface.
 
+![opsded](https://github.com/nonn-a/GumbUI/assets/86384221/32b144c4-5538-4ecd-966e-2790bf5bbe43)
+
+**The project is dead.** It always more or less was, it was just a little thingy I did when I was fifteen - had a lot of fun building and mantaining it :)
+
+The project WON'T be updated anymore (by me).
+
+The code is published under **MIT license**.
 
 <p align="center">
 <img src="https://user-images.githubusercontent.com/86384221/194616763-da784ee2-4dec-474f-bb8c-5383e72dadfa.png" width="350">
@@ -36,7 +40,7 @@ If `autoline` is set to `True`, it will automatically create a newline when the 
 <img src="https://user-images.githubusercontent.com/86384221/194620353-108b79cb-e70d-425c-9fa3-71680455ec53.png" width="500">
 </p>
 
-`Schematics` are a new kind of object I'm trying to introduce. (Edit: not anymore. See below.)
+`Schematics` are a new kind of object I'm trying to introduce. (Edit: not anymore. See above.)
 
 It's supposed to be a way to save and load matrix surface states, even partially.
 Schematics will allow to make quicker and easier scripts.
@@ -51,11 +55,3 @@ TL;DR? They are great.
 - Remember to always print what you are working with.
   Printing is NOT automatic.
 ``` 
-
-
-
-![opsded](https://github.com/nonn-a/GumbUI/assets/86384221/32b144c4-5538-4ecd-966e-2790bf5bbe43)
-
-**The project is dead. It always more or less was, it was just a little thingy I did when I was fifteen - had a lot of fun building and mantaining it :)
-The project WON'T be updated anymore (by me).
-The code is published under MIT license.**
