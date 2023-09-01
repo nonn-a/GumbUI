@@ -3,7 +3,7 @@
 **GumbUI is an ascii ui building tool.**<br>
 It's name stands for **G**eneral **U**se **M**atrix **B**ased **U**ser **I**nterface.
 
-![opsded](https://github.com/nonn-a/GumbUI/assets/86384221/32b144c4-5538-4ecd-966e-2790bf5bbe43)
+![opsded](https://github.com/nonn-a/GumbUI/assets/86384221/9e438bd0-58b8-4249-bf03-3a22f88f982b)
 
 **The project is dead.** It always more or less was, it was just a little thingy I did when I was fifteen - had a lot of fun building and mantaining it for a while.
 The project **won't** be updated anymore by me, but feel free to take it and make something even cooler out of it.
