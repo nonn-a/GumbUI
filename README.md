@@ -7,8 +7,11 @@ It's name stands for **G**eneral **U**se **M**atrix **B**ased **U**ser **I**nter
 
 **The project is dead.** It always more or less was, it was just a little thingy I did when I was fifteen - had a lot of fun building and mantaining it for a while :)
 
-The project WON'T be updated anymore (by me).\\
-The code is published under **MIT license**.
+The project WON'T be updated anymore by me, but feel free to take it and make something even cooler out of it.
+
+It's incredible how many things I'd change if I were to program it now - I guess that's a good thing.
+
+The code is published under **MIT license**, feel free to do anything you want within the limits of what the license allows.
 
 <p align="center">
 <img src="https://user-images.githubusercontent.com/86384221/194616763-da784ee2-4dec-474f-bb8c-5383e72dadfa.png" width="350">
