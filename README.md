@@ -5,10 +5,9 @@ It's name stands for **G**eneral **U**se **M**atrix **B**ased **U**ser **I**nter
 
 ![opsded](https://github.com/nonn-a/GumbUI/assets/86384221/32b144c4-5538-4ecd-966e-2790bf5bbe43)
 
-**The project is dead.** It always more or less was, it was just a little thingy I did when I was fifteen - had a lot of fun building and mantaining it :)
+**The project is dead.** It always more or less was, it was just a little thingy I did when I was fifteen - had a lot of fun building and mantaining it for a while :)
 
-The project WON'T be updated anymore (by me).
-
+The project WON'T be updated anymore (by me).\\
 The code is published under **MIT license**.
 
 <p align="center">
