@@ -1,7 +1,7 @@
 ![Logo_python](https://user-images.githubusercontent.com/86384221/194611654-1cdbbac3-b784-466a-a198-4a081ad008fb.png)
 --------------------------------------------------------------------------------
 
-**!This page is a work in progress.**
+**This project is dead. See below.**
 
 GumbUI is an ascii ui building tool.<br>
 It's name stands for **G**eneral **U**se **M**atrix **B**ased **U**ser **I**nterface.
@@ -51,3 +51,6 @@ TL;DR? They are great.
 - Remember to always print what you are working with.
   Printing is NOT automatic.
 ``` 
+
+![opsded](https://github.com/nonn-a/GumbUI/assets/86384221/6ff1f776-0e38-4d23-b4f2-08bf46ff2809)
+
