@@ -36,7 +36,7 @@ If `autoline` is set to `True`, it will automatically create a newline when the 
 <img src="https://user-images.githubusercontent.com/86384221/194620353-108b79cb-e70d-425c-9fa3-71680455ec53.png" width="500">
 </p>
 
-`Schematics` are a new kind of object I'm trying to introduce.
+`Schematics` are a new kind of object I'm trying to introduce. (Edit: not anymore. See below.)
 
 It's supposed to be a way to save and load matrix surface states, even partially.
 Schematics will allow to make quicker and easier scripts.
@@ -53,7 +53,9 @@ TL;DR? They are great.
 ``` 
 
 
-<p align="center">
-<img src="[https://user-images.githubusercontent.com/86384221/194620353-108b79cb-e70d-425c-9fa3-71680455ec53.png](https://github.com/nonn-a/GumbUI/assets/86384221/6ff1f776-0e38-4d23-b4f2-08bf46ff2809)" width="500">
-</p>
 
+![opsded](https://github.com/nonn-a/GumbUI/assets/86384221/64e1b3c2-d287-4578-85f7-b9622e78bd8e)
+
+**The project is dead. It always more or less was, it was just a little thingy I did when I was fifteen :)
+The project WON'T be updated by me.
+The code is published under the MIT license.**
